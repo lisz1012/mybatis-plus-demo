@@ -11,7 +11,7 @@ import java.util.List;
 
 @TableName("user") // 表名和类名一致（首字母是一个大写一个小写也算一致）就不用写这个注解
 public class User implements Serializable {
-	// 如果设置了表自增，那么id必须制定为IdType.AUTO类型，否则插入不成功
+	// 如果设置了表自增，那么id必须制定为IdType.AUTO类型，否则插入不成功, 主键被设置成了一个很大的数字，而并非DB的自增结果
 	@TableId(value="id", type = IdType.AUTO)
 	private Integer id;
 	private String name;

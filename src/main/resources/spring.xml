@@ -41,6 +41,7 @@
                         </list>
                     </property>
                 </bean>
+                <!-- 要在实体类的版本字段上面加 @Version -->
                 <bean class="com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor" />
 <!--                <bean class="com.baomidou.mybatisplus.extension.plugins.IllegalSQLInterceptor" />-->
             </array>

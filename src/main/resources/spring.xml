@@ -21,9 +21,36 @@
     <!--整合spring和mybatis-->
     <bean id="sqlSessionFactoryBean" class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
-        <property name="configLocation" value="classpath:mybatis-config.xml" />
+        <!--
+        configLocation  configuration都都代表的是mybatis-config.xml文件中相关的配置
+        configLocation:指定具体的配置文件的位置
+        configuration：将mybatis-config.xml文件中的属性可以拿出来进行直接的配置
+        一个是以外嵌的配置文件的方式引入，一个是直接在当前文件里引入，只能用一个
+        -->
+<!--        <property name="configLocation" value="classpath:mybatis-config.xml" />-->
+        <property name="configuration" ref="configuration" />
+        <property name="globalConfig" ref="globalConfig" />
     </bean>
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.lisz.dao" />
     </bean>
+
+    <bean id="configuration" class="com.baomidou.mybatisplus.core.MybatisConfiguration">
+        <!-- https://mybatis.plus/config/#defaultenumtypehandler 这里的属性都可以在这里配置 -->
+        <property name="mapUnderscoreToCamelCase" value="true" />
+        <!-- 相当于 mybatis-config.xml 文件中的 setting 中的 logImpl所对应的LOGJ -->
+        <property name="logImpl" value="org.apache.ibatis.logging.log4j.Log4jImpl" />
+    </bean>
+    <bean id="globalConfig" class="com.baomidou.mybatisplus.core.config.GlobalConfig">
+        <!-- https://mybatis.plus/config/#globalconfig-2 这里的属性都可以在这里配置 -->
+        <property name="banner" value="false" />
+<!--        <property name="dbConfig" ref="dbConfig" />-->
+    </bean>
+
+<!--    <bean id="dbConfig" class="com.baomidou.mybatisplus.core.config.GlobalConfig$DbConfig">-->
+<!--        &lt;!&ndash; https://mybatis.plus/config/#dbconfig 这里的属性都可以在这里配置 &ndash;&gt;-->
+<!--        &lt;!&ndash; 只要写好前缀，实体类上面就可以不用加 @TableName 了 &ndash;&gt;-->
+<!--        <property name="tablePrefix" value="tbl_" />-->
+<!--    </bean>-->
+
 </beans>

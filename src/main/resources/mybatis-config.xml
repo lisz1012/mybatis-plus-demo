@@ -21,4 +21,7 @@
 <!--    <mappers>-->
 <!--        <mapper resource="org/mybatis/example/BlogMapper.xml"/>-->
 <!--    </mappers>-->
+    <plugins>
+        <plugin interceptor="com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor"></plugin>
+    </plugins>
 </configuration>

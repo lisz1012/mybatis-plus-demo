@@ -203,6 +203,42 @@ public class MyTest {
 		userDao.update(user, updateWrapper);
 	}
 
+	// 当前数据库里数据的版本号是2，这里已设置成2，然后插入之后就会看到版本号自动变成3了，User类的version成员上面别忘了写@Version
+	@Test
+	public void test21(){
+		User user = new User();
+		user.setId(10);
+		user.setEmail("lishuzheng@gmail.com");
+		user.setVersion(2L);
+		userDao.updateById(user);
+	}
+
+	// 尝试全表更新
+	@Test
+	public void test22(){
+		User user = new User();
+		user.setScore(100.00);
+		int update = userDao.update(user, null);
+		System.out.println(update);
+	}
+
+	// 测试非法SQL, 非法SQL检查器，除了分页插件之外，用的都不多
+	@Test
+	public void test23(){
+		QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+		queryWrapper.or();
+		List<User> users = userDao.selectList(queryWrapper);
+		System.out.println(users);
+	}
+
+	// 给没有设置的字段填充默认值: name="lisz1012"
+	@Test
+	public void test24(){
+		User user = new User();
+		userDao.insert(user);
+	}
+
+
 	@Test
 	public void test0(){
 

@@ -27,9 +27,24 @@
         configuration：将mybatis-config.xml文件中的属性可以拿出来进行直接的配置
         一个是以外嵌的配置文件的方式引入，一个是直接在当前文件里引入，只能用一个
         -->
-<!--        <property name="configLocation" value="classpath:mybatis-config.xml" />-->
+        <!--        <property name="configLocation" value="classpath:mybatis-config.xml" />-->
         <property name="configuration" ref="configuration" />
         <property name="globalConfig" ref="globalConfig" />
+        <property name="plugins">
+            <array>
+                <bean class="com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor" />
+                <!-- 禁止全表更新和删除操作，但是必须要配置属性 -->
+                <bean class="com.baomidou.mybatisplus.extension.plugins.SqlExplainInterceptor">
+                    <property name="sqlParserList">
+                        <list>
+                            <bean class="com.baomidou.mybatisplus.extension.parsers.BlockAttackSqlParser" />
+                        </list>
+                    </property>
+                </bean>
+                <bean class="com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor" />
+<!--                <bean class="com.baomidou.mybatisplus.extension.plugins.IllegalSQLInterceptor" />-->
+            </array>
+        </property>
     </bean>
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.lisz.dao" />
@@ -44,7 +59,10 @@
     <bean id="globalConfig" class="com.baomidou.mybatisplus.core.config.GlobalConfig">
         <!-- https://mybatis.plus/config/#globalconfig-2 这里的属性都可以在这里配置 -->
         <property name="banner" value="false" />
-<!--        <property name="dbConfig" ref="dbConfig" />-->
+        <!--        <property name="dbConfig" ref="dbConfig" />-->
+        <!-- 给没有设置的字段填充默认值, 实体类的被填充默认值默认值的字段上面还要加上注解：@TableField(fill = FieldFill.INSERT) -->
+        <!-- https://baomidou.com/guide/auto-fill-metainfo.html-->
+        <property name="metaObjectHandler" ref="myMetaObjectHandler" />
     </bean>
 
 <!--    <bean id="dbConfig" class="com.baomidou.mybatisplus.core.config.GlobalConfig$DbConfig">-->
@@ -52,5 +70,5 @@
 <!--        &lt;!&ndash; 只要写好前缀，实体类上面就可以不用加 @TableName 了 &ndash;&gt;-->
 <!--        <property name="tablePrefix" value="tbl_" />-->
 <!--    </bean>-->
-
+    <bean id="myMetaObjectHandler" class="com.lisz.fill.MyMetaObjectHandler" />
 </beans>

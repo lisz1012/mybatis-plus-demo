@@ -1,8 +1,6 @@
 package com.lisz.bean;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -14,6 +12,7 @@ public class User implements Serializable {
 	// 如果设置了表自增，那么id必须制定为IdType.AUTO类型，否则插入不成功, 主键被设置成了一个很大的数字，而并非DB的自增结果
 	@TableId(value="id", type = IdType.AUTO)
 	private Integer id;
+	@TableField(fill = FieldFill.INSERT)
 	private String name;
 	private String job;
 	private Date birthDate;
@@ -22,6 +21,7 @@ public class User implements Serializable {
 	private Double score;
 	private Date createdAt;
 	private Date modifiedAt;
+	@Version
 	private Long version;
 
 	public Integer getId() {
